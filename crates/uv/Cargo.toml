@@ -91,7 +91,9 @@ reqwest = { workspace = true, features = ["blocking"], default-features = false 
 ignored = ["flate2"]
 
 [features]
-default = ["flate2/zlib-ng", "python", "pypi", "git", "entrypoint"]
+default = ["zlib", "python", "pypi", "git", "entrypoint"]
+# Enables zlib features.
+zlib = ["flate2/zlib-ng"]
 # Features for Uv's use as a CLI entrypoint.
 entrypoint = ["logging"]
 # Logging features.
