@@ -29,3 +29,5 @@ flamegraph.svg
 perf.data
 perf.data.old
 profile.json
+.DS_Store
+.idea/
