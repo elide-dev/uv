@@ -3,7 +3,7 @@ use std::path::Path;
 /// Shells for which virtualenv activation scripts are available.
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
 #[allow(clippy::doc_markdown)]
-pub(crate) enum Shell {
+pub enum Shell {
     /// Bourne Again SHell (bash)
     Bash,
     /// Friendly Interactive SHell (fish)
@@ -61,13 +61,13 @@ impl Shell {
     /// # Examples
     ///
     /// ```
-    /// use crate::shells::Shell;
+    /// use uv::shell::Shell;
     ///
     /// assert_eq!(Shell::from_shell_path("/bin/bash"), Some(Shell::Bash));
     /// assert_eq!(Shell::from_shell_path("/usr/bin/zsh"), Some(Shell::Zsh));
     /// assert_eq!(Shell::from_shell_path("/opt/my_custom_shell"), None);
     /// ```
-    pub(crate) fn from_shell_path(path: impl AsRef<Path>) -> Option<Shell> {
+    pub fn from_shell_path(path: impl AsRef<Path>) -> Option<Shell> {
         parse_shell_from_path(path.as_ref())
     }
 }

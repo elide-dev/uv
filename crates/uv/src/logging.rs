@@ -21,7 +21,7 @@ use tracing_tree::time::Uptime;
 use tracing_tree::HierarchicalLayer;
 
 #[derive(Debug, Default, Clone, Copy, PartialEq, Eq)]
-pub(crate) enum Level {
+pub enum Level {
     /// Suppress all tracing output by default (overridable by `RUST_LOG`).
     #[default]
     Default,
@@ -112,7 +112,7 @@ where
 /// The [`Level`] is used to dictate the default filters (which can be overridden by the `RUST_LOG`
 /// environment variable) along with the formatting of the output. For example, [`Level::Verbose`]
 /// includes targets and timestamps, along with all `uv=debug` messages by default.
-pub(crate) fn setup_logging(
+pub fn setup_logging(
     level: Level,
     durations: impl Layer<Registry> + Send + Sync,
 ) -> anyhow::Result<()> {
@@ -183,7 +183,7 @@ pub(crate) fn setup_logging(
 
 /// Setup the `TRACING_DURATIONS_FILE` environment variable to enable tracing durations.
 #[cfg(feature = "tracing-durations-export")]
-pub(crate) fn setup_duration() -> anyhow::Result<(
+pub fn setup_duration() -> anyhow::Result<(
     Option<DurationsLayer<Registry>>,
     Option<DurationsLayerDropGuard>,
 )> {

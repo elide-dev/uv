@@ -2,7 +2,7 @@ use anstream::{eprint, print};
 use indicatif::ProgressDrawTarget;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
-pub(crate) enum Printer {
+pub enum Printer {
     /// A printer that prints to standard streams (e.g., stdout).
     Default,
     /// A printer that suppresses all output.
