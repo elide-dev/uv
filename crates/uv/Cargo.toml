@@ -91,7 +91,11 @@ reqwest = { workspace = true, features = ["blocking"], default-features = false 
 ignored = ["flate2"]
 
 [features]
-default = ["flate2/zlib-ng", "python", "pypi", "git"]
+default = ["flate2/zlib-ng", "python", "pypi", "git", "entrypoint"]
+# Features for Uv's use as a CLI entrypoint.
+entrypoint = ["logging"]
+# Logging features.
+logging = []
 # Introduces a dependency on a local Python installation.
 python = []
 # Introduces a dependency on a local Python installation with specific patch versions.

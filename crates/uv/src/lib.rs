@@ -86,6 +86,27 @@ pub async fn run_uv_os_args() -> Result<ExitStatus> {
     run_uv_entry(None).await
 }
 
+#[cfg(feature = "logging")]
+fn do_setup_logging(globals: &GlobalSettings) {
+    #[cfg(feature = "tracing-durations-export")]
+    let (duration_layer, _duration_guard) = logging::setup_duration()?;
+    #[cfg(not(feature = "tracing-durations-export"))]
+    let duration_layer = None::<tracing_subscriber::layer::Identity>;
+    logging::setup_logging(
+        match globals.verbose {
+            0 => logging::Level::Default,
+            1 => logging::Level::Verbose,
+            2.. => logging::Level::ExtraVerbose,
+        },
+        duration_layer,
+    ).expect("Failed to setup logging");
+}
+
+#[cfg(feature = "logging")]
+fn setup_logging(globals: &GlobalSettings) {
+    do_setup_logging(globals)
+}
+
 #[instrument]
 pub async fn run_uv_entry(args: Option<Vec<OsString>>) -> Result<ExitStatus> {
     let cli = match args {
@@ -187,18 +208,8 @@ pub async fn run_uv_entry(args: Option<Vec<OsString>>) -> Result<ExitStatus> {
     let cache_settings = CacheSettings::resolve(cli.cache_args, filesystem.as_ref());
 
     // Configure the `tracing` crate, which controls internal logging.
-    #[cfg(feature = "tracing-durations-export")]
-    let (duration_layer, _duration_guard) = logging::setup_duration()?;
-    #[cfg(not(feature = "tracing-durations-export"))]
-    let duration_layer = None::<tracing_subscriber::layer::Identity>;
-    logging::setup_logging(
-        match globals.verbose {
-            0 => logging::Level::Default,
-            1 => logging::Level::Verbose,
-            2.. => logging::Level::ExtraVerbose,
-        },
-        duration_layer,
-    )?;
+    #[cfg(feature = "logging")]
+    setup_logging(&globals);
 
     // Configure the `Printer`, which controls user-facing output in the CLI.
     let printer = if globals.quiet {
