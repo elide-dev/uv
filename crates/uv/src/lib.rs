@@ -83,7 +83,7 @@ pub fn run_main() -> ExitStatus {
 
 #[inline(always)]
 pub async fn run_uv_os_args() -> Result<ExitStatus> {
-    run_uv_entry(None).await
+    run_uv_entry().await
 }
 
 #[cfg(feature = "logging")]
@@ -108,11 +108,18 @@ fn setup_logging(globals: &GlobalSettings) {
 }
 
 #[instrument]
-pub async fn run_uv_entry(args: Option<Vec<OsString>>) -> Result<ExitStatus> {
-    let cli = match args {
-        Some(args) => Cli::try_parse_from(args),
-        None => Cli::try_parse()
-    };
+pub async fn run_uv_entry() -> Result<ExitStatus> {
+    run_uv_entry_with_args(env::args_os().collect::<Vec<_>>()).await
+}
+
+#[instrument]
+pub async fn run_uv_entry_with_args(args: Vec<OsString>) -> Result<ExitStatus> {
+    eprintln!("dispatching uv with args {:?}", args);
+    let cli = Cli::try_parse_from(args);
+    // let matches = cmd.get_matches_from(args.clone());
+    // let cli = Cli::from_arg_matches(&matches);
+    // // Cli::layer_command_args(&cmd, &mut args)?;
+
     let cli = match cli {
         Ok(cli) => cli,
         Err(mut err) => {
