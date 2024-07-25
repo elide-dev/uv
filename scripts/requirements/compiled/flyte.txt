@@ -224,7 +224,7 @@ tomli==2.0.1
     #   autoflake
     #   mypy
     #   pytest
-torch==1.12.1
+torch==2.2.0
 traitlets==5.14.1
     # via
     #   ipython
