@@ -210,7 +210,7 @@ tensorboard-data-server==0.6.1
     # via tensorboard
 tensorboard-plugin-wit==1.8.1
     # via tensorboard
-tensorflow==2.8.1
+tensorflow==2.12.1
 tensorflow-estimator==2.8.0
     # via tensorflow
 tensorflow-io-gcs-filesystem==0.35.0
