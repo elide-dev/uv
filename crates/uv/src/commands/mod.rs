@@ -79,7 +79,7 @@ mod venv;
 mod version;
 
 #[derive(Copy, Clone)]
-pub(crate) enum ExitStatus {
+pub enum ExitStatus {
     /// The command succeeded.
     Success,
 

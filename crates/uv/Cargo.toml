@@ -134,7 +134,7 @@ ignored = [
 ]
 
 [features]
-default = ["python", "python-managed", "pypi", "git", "performance", "crates-io", "slow-tests", "test-ecosystem"]
+default = ["python", "python-managed", "pypi", "git", "performance", "crates-io", "slow-tests", "test-ecosystem", "cli-lib"]
 # Use better memory allocators, etc.
 performance = [
     "performance-memory-allocator",
@@ -163,3 +163,5 @@ slow-tests = []
 test-ecosystem = []
 # Adds self-update functionality.
 self-update = ["axoupdater", "uv-cli/self-update"]
+# Adds an interface for use as a library
+cli-lib = []

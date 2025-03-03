@@ -29,10 +29,9 @@ use uv_fs::{Simplified, CWD};
 use uv_requirements::RequirementsSource;
 use uv_scripts::{Pep723Error, Pep723Item, Pep723Metadata, Pep723Script};
 use uv_settings::{Combine, FilesystemOptions, Options};
-use uv_static::EnvVars;
+pub use uv_static::EnvVars;
 use uv_warnings::{warn_user, warn_user_once};
 use uv_workspace::{DiscoveryOptions, Workspace};
-
 use crate::commands::{ExitStatus, RunCommand, ScriptPath, ToolRunCommand};
 use crate::printer::Printer;
 use crate::settings::{
@@ -1808,7 +1807,7 @@ async fn run_project(
 ///
 /// It is only safe to call this routine when it is known that multiple threads are not running.
 #[allow(unsafe_code)]
-pub unsafe fn main<I, T>(args: I) -> ExitCode
+pub unsafe fn main<I, T>(args: I, with_exit: bool) -> ExitCode
 where
     I: IntoIterator<Item = T>,
     T: Into<OsString> + Clone,
@@ -1871,7 +1870,10 @@ where
                     _ => {}
                 }
             }
-            err.exit()
+            if with_exit {
+                err.exit();
+            }
+            return ExitStatus::Error.into();   
         }
     };
 
